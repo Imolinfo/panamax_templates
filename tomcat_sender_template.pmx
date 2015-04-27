@@ -15,7 +15,7 @@ images:
     proto: TCP
   environment:
   - variable: TUBO_CONFIGURATION_PATH
-    value: "/sender"
+    value: "/sender/sender.yml"
   volumes_from:
   - service: Volume_Instance
 - name: Volume_Instance

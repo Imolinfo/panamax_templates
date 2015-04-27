@@ -15,7 +15,7 @@ images:
     proto: TCP
   environment:
   - variable: TUBO_CONFiGURATION_PATH
-    value: "/receiver"
+    value: "/receiver/receiver.yml"
   volumes_from:
   - service: Volume_Instance_1
 - name: Volume_Instance_1

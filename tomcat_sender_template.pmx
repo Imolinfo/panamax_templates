@@ -1,0 +1,27 @@
+---
+name: Tomcat_Sender_template
+description: ''
+keywords: tomcat,cura,sender
+type: Tomcat
+documentation: ''
+images:
+- name: Tomcat_Instance
+  source: dordoka/tomcat:latest
+  category: Application Server
+  type: Default
+  ports:
+  - host_port: '8081'
+    container_port: '8080'
+    proto: TCP
+  environment:
+  - variable: TUBO_CONFIGURATION_PATH
+    value: "/sender"
+  volumes_from:
+  - service: Volume_Instance
+- name: Volume_Instance
+  source: rastasheep/ubuntu-sshd:latest
+  category: Volumes
+  type: Default
+  volumes:
+  - host_path: "/home/core/sender"
+    container_path: "/sender"

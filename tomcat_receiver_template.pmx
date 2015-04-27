@@ -22,6 +22,10 @@ images:
   source: rastasheep/ubuntu-sshd:latest
   category: Volumes
   type: Default
+  ports:
+  - host_port: '2224'
+    container_port: '22'
+    proto: TCP
   volumes:
   - host_path: "/home/core/receiver"
     container_path: "/receiver"

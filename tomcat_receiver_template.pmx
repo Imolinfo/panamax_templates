@@ -1,0 +1,27 @@
+---
+name: Tomcat_Receiver_template
+description: ''
+keywords: tomcat,cura,recever
+type: Tomcat
+documentation: ''
+images:
+- name: Tomcat_Instance_1
+  source: dordoka/tomcat:latest
+  category: Application Server
+  type: Default
+  ports:
+  - host_port: '8082'
+    container_port: '8080'
+    proto: TCP
+  environment:
+  - variable: TUBO_CONFiGURATION_PATH
+    value: "/receiver"
+  volumes_from:
+  - service: Volume_Instance_1
+- name: Volume_Instance_1
+  source: rastasheep/ubuntu-sshd:latest
+  category: Volumes
+  type: Default
+  volumes:
+  - host_path: "/home/core/receiver"
+    container_path: "/receiver"

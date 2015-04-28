@@ -1,0 +1,23 @@
+keys:
+   REDHOTLUX: &redhotlux
+     keyID          : 1D00D84F
+     publicKeyFile  : keys/3E0D0E07.pub.key
+     privateKeyFile : keys/3E0D0E07.key
+
+   DALTDOX: &daltdox
+     keyID          : 8489FA53
+     publicKeyFile  : keys/9A935E9A.pub.key
+     privateKeyFile : keys/9A935E9A.key
+
+
+transmitters:
+   - name          : Sender
+     targetUrl     : http://172.17.42.1:8083/tubo-1.0.2/receiver
+     localFolder   : outbox
+     archiveFolder : archive
+     receiptFolder : outbox-receipts
+     errorFolder   : errors
+     logFile       : logs/sender.log
+     pollingSeconds: 60
+     localKey      : *redhotlux
+     remoteKey     : *daltdox

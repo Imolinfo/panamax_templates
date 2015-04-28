@@ -1,0 +1,20 @@
+keys:
+   REDHOTLUX: &redhotlux
+     keyID          : 8489FA53
+     publicKeyFile  : keys/3E0D0E07.pub.key
+     privateKeyFile : keys/3E0D0E07.key
+
+   DALTDOX: &daltdox
+     keyID          : 1D00D84F
+     publicKeyFile  : keys/9A935E9A.pub.key
+     privateKeyFile : keys/9A935E9A.key
+
+receivers:
+   - name          : Receiver
+     path          : /receiver
+     targetFolder  : inbox
+     receiptFolder : inbox-receipt
+     logFile       : logs/from-daltdox.log
+     localKey      : *daltdox
+     remoteKey     : *redhotlux
+

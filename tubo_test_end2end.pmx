@@ -1,0 +1,67 @@
+---
+name: Tubo_test_end2end
+description: This is a complete Panamax configuration to set up a comprehensive environment
+  to run a test end to end, i.e. to test message transmission from a sender Tomcat
+  instance to a receiver Tomcat instance.
+keywords: tubo, tomcat
+type: Tomcat
+documentation: ''
+images:
+- name: tomcat_2
+  source: tomcat:8.0.21-jre7
+  category: Sender
+  type: Default
+  ports:
+  - host_port: '8081'
+    container_port: '8080'
+    proto: TCP
+  environment:
+  - variable: CATALINA_OPTS
+    value: "-DTUBO_CONFIGURATION_PATH=/sender/sender.yml"
+  volumes:
+  - host_path: "/home/core/logs/sender"
+    container_path: "/usr/local/tomcat/logs"
+  volumes_from:
+  - service: data_sender_2223
+- name: tomcat_1
+  source: tomcat:8.0-jre7
+  category: Receiver
+  type: Default
+  ports:
+  - host_port: '8083'
+    container_port: '8080'
+    proto: TCP
+  environment:
+  - variable: CATALINA_OPTS
+    value: "-DTUBO_CONFIGURATION_PATH=/receiver/receiver.yml"
+  volumes:
+  - host_path: "/home/core/logs/receiver"
+    container_path: "/usr/local/tomcat/logs"
+  volumes_from:
+  - service: data_receiver_2224
+- name: data_sender_2223
+  source: rastasheep/ubuntu-sshd:latest
+  category: Data sender
+  type: Default
+  ports:
+  - host_port: '2223'
+    container_port: '22'
+    proto: TCP
+  volumes:
+  - host_path: ''
+    container_path: "/sender"
+  - host_path: ''
+    container_path: "/usr/local/tomcat/webapps"
+- name: data_receiver_2224
+  source: rastasheep/ubuntu-sshd:latest
+  category: Data receiver
+  type: Default
+  ports:
+  - host_port: '2224'
+    container_port: '22'
+    proto: TCP
+  volumes:
+  - host_path: ''
+    container_path: "/receiver"
+  - host_path: ''
+    container_path: "/usr/local/tomcat/webapps"

@@ -1,0 +1,50 @@
+---
+name: CURA_Test_Environment
+description: This is the environment built @Imolinfo as a first test-bed for developing
+  and running our test suite.
+keywords: ''
+type: Default
+documentation: ''
+images:
+- name: tomcat_instance
+  source: tomcat:8.0.21-jre7
+  type: Default
+  ports:
+  - host_port: '8080'
+    container_port: '8080'
+    proto: TCP
+  environment:
+  - variable: CATALINA_OPTS
+    value: "-DMOCK_CONFIG_PATH=/configs/config-integration.yml"
+  volumes_from:
+  - service: data_volume
+- name: data_volume
+  source: rastasheep/ubuntu-sshd:latest
+  type: Default
+  ports:
+  - host_port: '2223'
+    container_port: '22'
+    proto: TCP
+  volumes:
+  - host_path: "/home/core/resellers"
+    container_path: "/resellers"
+  - host_path: "/home/core/distributors"
+    container_path: "/distributors"
+  - host_path: "/home/core/configs"
+    container_path: "/configs"
+  - host_path: "/home/core/webapps"
+    container_path: "/usr/local/tomcat/webapps"
+  - host_path: "/home/core/jenkins"
+    container_path: "/var/jenkins_home"
+  - host_path: "/home/core/test-suite"
+    container_path: "/test-suite"
+- name: jenkins
+  source: jenkins:latest
+  category: Continuous integration
+  type: Default
+  ports:
+  - host_port: '8082'
+    container_port: '8080'
+    proto: TCP
+  volumes_from:
+  - service: data_volume
